@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-clover-sdk" version="0.1.0">
+    <name>CloverAndroidSDK</name>
+    <description>Cordova Plugin Square</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova, plugin, square</keywords>
+
+    <js-module src="www/CloverAndroidSDK.js" name="CloverAndroidSDK">
+        <runs />
+        <clobbers target="cordova.plugins.CloverAndroidSDK"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <framework src="com.clover.sdk:clover-android-sdk:latest.release" />
+<!--        <framework custom="true" src="src/android/deps.gradle" type="gradleReference" />-->
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="CloverAndroidSDK">
+                <param name="android-package" value="com.tituspeterson.cordova.cloversdk.CloverAndroidSDK"/>
+                <param name="onload" value="true"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+            <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<!--            <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="17" />-->
+        </config-file>
+
+        <source-file src="src/android/CloverAndroidSDK.java" target-dir="src/cordova-plugin-clover-sdk/CloverAndroidSDK"/>
+    </platform>
+</plugin>

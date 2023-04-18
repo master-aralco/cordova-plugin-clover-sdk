@@ -1,0 +1,7 @@
+dependencies {
+    compile 'com.clover.sdk:clover-android-sdk:latest.release'
+}
+
+repositories {
+    mavenCentral()
+}
