@@ -1,6 +1,8 @@
 package com.tituspeterson.cordova.cloversdk;
 
 import com.clover.sdk.util.Platform2;
+import com.clover.sdk.v1.printer.job.StaticReceiptPrintJob;
+import com.clover.sdk.v1.printer.job.TextPrintJob;
 import com.clover.sdk.v3.scanner.BarcodeScanner;
 import com.clover.sdk.v1.Intents;
 
@@ -23,6 +25,17 @@ import android.os.Bundle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.clover.sdk.util.CloverAccount;
+import com.clover.sdk.v1.BindingException;
+import com.clover.sdk.v1.ClientException;
+import com.clover.sdk.v1.ServiceException;
+import com.clover.sdk.v1.printer.job.PrintJob;
+import com.clover.sdk.v1.printer.job.StaticOrderPrintJob;
+import com.clover.sdk.v1.printer.job.StaticReceiptPrintJob;
+import com.clover.sdk.v3.order.LineItem;
+import com.clover.sdk.v3.order.Order;
+import com.clover.sdk.v3.order.OrderConnector;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -61,6 +74,10 @@ public class CloverAndroidSDK extends CordovaPlugin {
         } else if (action.equals("startScan")) {
             this.callbackContext = callbackContext;
             startBarcodeScanner();
+            return true;
+        } else if (action.equals("printTextReceipt")) {
+            this.callbackContext = callbackContext;
+            printReceipt(args);
             return true;
         }
         return false;
@@ -112,7 +129,24 @@ public class CloverAndroidSDK extends CordovaPlugin {
         }
     }
 
-
+    public boolean printReceipt(JSONArray args) {
+        String receipt = null;
+        try {
+            receipt = args.getString(0);
+        } catch (JSONException e) {
+            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, "Clover printReceipt: arg at array index 0 is not a string."));
+            return false;
+        }
+        try {
+            PrintJob pj = new TextPrintJob.Builder().text(receipt).flag(PrintJob.FLAG_NONE).build();
+            pj.print(this.cordova.getActivity(), CloverAccount.getAccount(this.cordova.getActivity()));
+        } catch (Exception e) {
+            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, "Clover printReceipt: " + e.getMessage()));
+            return false;
+        }
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
+        return true;
+    }
 
 }
 
