@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sonicer105/cordova-plugin-clover-sdk.git"
+    "url": "https://github.com/master-aralco/cordova-plugin-clover-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/sonicer105/cordova-plugin-clover-sdk/issues"
+    "url": "https://github.com/master-aralco/cordova-plugin-clover-sdk/issues"
   },
   "keywords": [
     "cordova",
